@@ -10,3 +10,7 @@ The map is one proposed reconstruction; location identifications and highlight e
 
 Scripture: The Holy Bible, New International Version NIV. Copyright 1973, 1978, 1984, 2011 by Biblica, Inc.
 All rights reserved worldwide. Map and Scripture retain their respective copyrights.
+
+The scene gallery adds later artistic interpretations by Gustave Doré and James Tissot,
+and a modern photograph of the excavated Broad Wall. See IMAGE-CREDITS.md for sources,
+licenses, and the distinction between artistic imagination and archaeology.
