@@ -1816,7 +1816,9 @@ html&gt;body{padding:0}&lt;/style&gt;
   #nehemiah-study-guide .scene-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
   #nehemiah-study-guide .scene-grid figure { margin:0; display:grid; gap:12px; align-content:start; min-width:0; }
   #nehemiah-study-guide .scene-grid img { display:block; width:100%; height:220px; object-fit:contain; background:var(--muted); }
-  #nehemiah-study-guide .scene-grid figcaption { display:grid; gap:8px; overflow-wrap:anywhere; }
+  #nehemiah-study-guide .scene-grid figcaption,
+  #nehemiah-study-guide [data-scene-caption] figcaption,
+  #nehemiah-study-guide [data-walk-scene-credit] figcaption { display:grid; gap:8px; overflow-wrap:anywhere; }
   #nehemiah-study-guide [data-scene-dialog] { padding:0; border:0; background:transparent; color:var(--foreground); width:min(800px,calc(100% - 32px)); max-height:90dvh; }
   #nehemiah-study-guide [data-scene-dialog]::backdrop { background:color-mix(in srgb,var(--foreground) 40%,transparent); }
   #nehemiah-study-guide .scene-dialog-content { display:grid; gap:12px; }
@@ -1827,6 +1829,24 @@ html&gt;body{padding:0}&lt;/style&gt;
 (() =&gt; {
   const guide=document.getElementById(&#x27;nehemiah-study-guide&#x27;);
   const dialog=guide.querySelector(&#x27;[data-scene-dialog]&#x27;);
+  guide.addEventListener(&#x27;neh:walk-location&#x27;,event=&gt;{
+    const {walking,record}=event.detail;
+    const scene=guide.querySelector(&#x27;[data-walk-scene]&#x27;);
+    scene.hidden=!walking;
+    if(!walking)return;
+    const broadWall=record.verses.includes(8);
+    const fortification=record.verses.some(v=&gt;[1,3,6,11,13,14,15,19,25,28,31,32].includes(v));
+    const index=broadWall?2:fortification?0:1;
+    const original=guide.querySelector(`[data-scene-image=&quot;${index}&quot;]`);
+    const image=scene.querySelector(&#x27;[data-walk-scene-image]&#x27;);
+    image.src=original.src;image.alt=original.alt;image.dataset.sceneIndex=String(index);
+    scene.querySelector(&#x27;[data-walk-scene-context]&#x27;).textContent=broadWall
+      ?&#x27;Broad Wall context · A modern photograph of older First Temple-period masonry near the landmark named in verse 8; not a photograph of this repair.&#x27;
+      :fortification
+      ?&#x27;Gate and wall context · Doré’s 1866 imagining of damaged gates and fallen stone, not a verified view of this specific section.&#x27;
+      :&#x27;City context · Tissot’s 1901 imagining of the ruins in Nehemiah 2:17, not a verified view of this specific section.&#x27;;
+    scene.querySelector(&#x27;[data-walk-scene-credit]&#x27;).replaceChildren(original.closest(&#x27;figure&#x27;).querySelector(&#x27;figcaption&#x27;).cloneNode(true));
+  });
   guide.querySelectorAll(&#x27;[data-enlarge-scene]&#x27;).forEach(button=&gt;button.addEventListener(&#x27;click&#x27;,()=&gt;{
     const figure=button.closest(&#x27;figure&#x27;),image=figure.querySelector(&#x27;img&#x27;);
     const large=guide.querySelector(&#x27;[data-scene-large]&#x27;);large.src=image.src;large.alt=image.alt;
@@ -1877,6 +1897,11 @@ html&gt;body{padding:0}&lt;/style&gt;
           &lt;div class=&quot;text-small text-muted&quot;&gt;Highlight extents are approximate.&lt;/div&gt;
         &lt;/div&gt;
         &lt;div aria-live=&quot;polite&quot; class=&quot;passage-content&quot;&gt;
+          &lt;figure data-walk-scene hidden&gt;
+            &lt;img data-walk-scene-image alt=&quot;&quot;&gt;
+            &lt;figcaption class=&quot;text-small&quot; data-walk-scene-context&gt;&lt;/figcaption&gt;
+            &lt;details&gt;&lt;summary class=&quot;text-small&quot;&gt;Image source &amp;amp; context&lt;/summary&gt;&lt;div class=&quot;text-small&quot; data-walk-scene-credit&gt;&lt;/div&gt;&lt;/details&gt;
+          &lt;/figure&gt;
           &lt;div&gt;&lt;strong&gt;Who worked here&lt;/strong&gt;&lt;div data-builders&gt;&lt;/div&gt;&lt;/div&gt;
           &lt;div class=&quot;text-small&quot; data-note&gt;&lt;/div&gt;
           &lt;div data-verses&gt;&lt;/div&gt;
@@ -1908,6 +1933,9 @@ html&gt;body{padding:0}&lt;/style&gt;
   #neh-map-interactive .dialog-content,#neh-map-interactive .passage-content { display:grid; gap:16px; }
   #neh-map-interactive strong { font-weight:500; }
   #neh-map-interactive [data-verses] { display:grid; gap:12px; }
+  #neh-map-interactive [data-walk-scene] { margin:0; }
+  #neh-map-interactive [data-walk-scene-image] { display:block; width:100%; height:180px; object-fit:contain; background:var(--muted); margin-bottom:8px; }
+  #neh-map-interactive [data-walk-scene-credit] { overflow-wrap:anywhere; }
 &lt;/style&gt;
 &lt;script&gt;
 (() =&gt; {
@@ -2032,6 +2060,7 @@ html&gt;body{padding:0}&lt;/style&gt;
       paragraph.append(ref,document.createTextNode(verses[number]));passage.append(paragraph);
     }
     draw();
+    root.dispatchEvent(new CustomEvent(&#x27;neh:walk-location&#x27;,{bubbles:true,detail:{walking,step,record:r}}));
     if(open&amp;&amp;!dialog.open) dialog.showModal();
     if(save&amp;&amp;window.openai?.setWidgetState)window.openai.setWidgetState({modelContent:{chapter:&#x27;Nehemiah 3&#x27;,location:r.name,verses:r.verses,walkthrough:walking?{step:step+1,total:steps.length}:null},privateContent:{selected,walkStep:walking?step:null}}).catch(()=&gt;{});
   }
