@@ -2998,7 +2998,7 @@ html&gt;body{padding:0}&lt;/style&gt;
       }
       if (height <= 10_000) {
         const width = isShare && storage != null ? frame.clientWidth : null;
-        frame.style.height = Math.ceil(height) + "px";
+        frame.style.height = "calc(100dvh - 2rem)";
         if (isShare && storage != null) {
           const size = JSON.stringify({
             fingerprint: sizeFingerprint,
@@ -3021,7 +3021,7 @@ html&gt;body{padding:0}&lt;/style&gt;
         if (height > 10_000 && Number.parseFloat(frame.style.height) === 0) {
           frame.style.removeProperty("height");
         }
-        frame.scrolling = height > 10_000 ? "auto" : "no";
+        frame.scrolling = "auto";
         document.documentElement.classList.add("visualization-share-ready");
       }
       return;
