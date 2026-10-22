@@ -1941,7 +1941,7 @@ html&gt;body{padding:0}&lt;/style&gt;
   #neh-map-interactive [data-walk-map][hidden] { display:none; }
   #neh-map-interactive .walk-overview { display:block; width:100%; aspect-ratio:994/1536; }
   @media(max-width:540px) {
-    #neh-map-interactive dialog.walking { width:calc(100% - 8px); }
+    #neh-map-interactive dialog.walking { width:calc(100% - 8px); max-width:calc(100% - 8px); }
     #neh-map-interactive .walking &gt; .card { padding:8px; }
     #neh-map-interactive .walking .walk-visual { grid-template-columns:minmax(0,1fr); gap:12px; }
     #neh-map-interactive [data-walk-map] { grid-template-columns:100px minmax(0,1fr); align-items:center; column-gap:12px; }
