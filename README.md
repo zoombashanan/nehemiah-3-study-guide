@@ -1,7 +1,7 @@
 # Nehemiah 3 — One Wall, Many Hands
 
 An interactive study guide with a Jerusalem reconstruction map, a 41-stop walkthrough,
-57 selectable locations, the supplied NIV chapter, and a chapter overview.
+57 selectable locations, nine AI illustrative district scenes, the supplied NIV chapter, and a chapter overview.
 
 Open `index.html` in a current browser. No build or external dependencies are required.
 
