@@ -1,5 +1,7 @@
 # Image sources and reuse information
 
+Regional map: United Nations Geospatial, Map No.4664 (2023). Unmodified map rendered to WebP, with original labels, legend and disclaimer. https://www.un.org/geospatial/sites/www.un.org.geospatial/files/files/documents/2023/Apr/2023_un_isr_om.pdf
+
 The walkthrough uses nine AI-generated illustrative district views, created with the built-in image generator. They are imagined settings rather than exact archaeological reconstructions; nearby stops share a district view. Architecture, terrain relationships and people are interpretive. Historical context: https://hadashot.iaa.org.il/Report_Detail_Eng.aspx?id=26089
 
 The artworks are later interpretations, not eyewitness images of Jerusalem in the fifth century BCE. The Broad Wall photograph shows surviving older masonry in a modern setting.
